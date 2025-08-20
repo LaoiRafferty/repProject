@@ -17,13 +17,14 @@ namespace repProject
         List<Image> asteroids = new List<Image>();
         List<BoxView> bullets = new List<BoxView>();
         bool gameOver = false;
-
+        int highScore;
 
         bool shooting = false;
         DateTime lastShotTime = DateTime.MinValue;
         TimeSpan fireRate = TimeSpan.FromMilliseconds(400);
 
-
+        int timeLeft = 30;
+        IDispatcherTimer countdownTimer;
 
         int score = 0;
 
@@ -31,6 +32,8 @@ namespace repProject
         {
             InitializeComponent();
 
+            highScore = Preferences.Get("HighScore", 0);
+            UpdateScore();
 
             // Set start position
             AbsoluteLayout.SetLayoutBounds(PlayerSprite,
@@ -52,6 +55,7 @@ namespace repProject
 #endif
 
 
+
             // Starts timer
             gameTimer = Dispatcher.CreateTimer();
             gameTimer.Interval = TimeSpan.FromMilliseconds(16);
@@ -63,6 +67,67 @@ namespace repProject
             {
                 if (!gameOver) SpawnAsteroid();
                 return !gameOver; // keeps spawning until games over
+            });
+        }
+
+        private void OnStartClicked(object sender, EventArgs e)
+        {
+            ResetGame();
+            Overlay.IsVisible = false; // hide start overlay
+        }
+
+        private void ResetGame()
+        {
+           
+            foreach (var a in asteroids) GameArea.Children.Remove(a);
+            foreach (var b in bullets) GameArea.Children.Remove(b);
+            asteroids.Clear();
+            bullets.Clear();
+
+            // Resets scores
+            score = 0;
+            UpdateScore();
+
+            // Resets ship
+            position = new Vector2(200, 200);
+            angle = 0;
+            PlayerSprite.Rotation = 0;
+            AbsoluteLayout.SetLayoutBounds(PlayerSprite, new Rect(position.X, position.Y, 50, 50));
+
+            gameOver = false;
+            shooting = false;
+
+            // rEsets timer
+            timeLeft = 30;
+            TimerLabel.Text = $"Time: {timeLeft}";
+
+            // Starts countdown
+            countdownTimer?.Stop();
+            countdownTimer = Dispatcher.CreateTimer();
+            countdownTimer.Interval = TimeSpan.FromSeconds(1);
+            countdownTimer.Tick += (s, e) =>
+            {
+                if (gameOver) { countdownTimer.Stop(); return; }
+
+                timeLeft--;
+                TimerLabel.Text = $"Time: {timeLeft}";
+
+                if (timeLeft <= 0)
+                {
+                    EndGame();
+                    countdownTimer.Stop();
+                }
+            };
+            countdownTimer.Start();
+
+            // Starts game loop
+            gameTimer.Start();
+
+            // Spawns asteroids every 2s
+            Device.StartTimer(TimeSpan.FromSeconds(2), () =>
+            {
+                if (!gameOver) SpawnAsteroid();
+                return !gameOver;
             });
         }
 
@@ -246,7 +311,17 @@ namespace repProject
                         asteroids.Remove(asteroid);
                         bullets.Remove(bullet);
                         score += 100; // 🟢 add score
-                        Score.Text = $"Score: {score}";
+
+                        if (score >= highScore)
+                        {
+                            highScore = score;
+                            // save score + update scores
+                            Preferences.Set("HighScore", highScore);
+                            UpdateScore();
+
+                        }
+                       
+
                         break;
 
                         
@@ -261,15 +336,24 @@ namespace repProject
             private void Right(object sender, EventArgs e) => RotateRight();
             private void Forward(object sender, EventArgs e) => MoveForward();
 
-            private void EndGame()
-            {
-                gameOver = true;
-                gameTimer.Stop();
-
-                DisplayAlert("Game Over", "You died", "OK");
-            }
 
 
+        private void EndGame()
+        {
+            gameOver = true;
+            gameTimer.Stop();
+
+            GameMessage.Text = "Game Over";
+            StartButton.Text = "Restart";
+            Overlay.IsVisible = true;
+        }
+
+
+        private void UpdateScore()
+        {
+            Score.Text = $"Score: {score}";
+            HighScore.Text = $"HighScore: {highScore}";
+        }
 
 
         class AsteroidBehavior : Behavior<Image>

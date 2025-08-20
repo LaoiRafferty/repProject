@@ -10,22 +10,31 @@
             <Image x:Name="PlayerSprite"
                    Source="ship.jpg"
                    WidthRequest="50"
-                   HeightRequest="50"
-                   Rotation="0" />
+                   HeightRequest="50"/>
         </AbsoluteLayout>
+
+        <!-- Scores -->
         <VerticalStackLayout>
             <Label x:Name="Score"
-             Text="Score: 0"
-             FontSize="36"
-             TextColor="White"
-             HorizontalOptions="Center" />
+                   Text="Score: 0"
+                   FontSize="36"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
 
-             <Label x:Name="HighScore"
-             Text="High Score: 0"
-             FontSize="36"
-             TextColor="White"
-             HorizontalOptions="Center" />
+            <Label x:Name="HighScore"
+                   Text="High Score: 0"
+                   FontSize="36"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Label x:Name="TimerLabel"
+                   Text="Time: 30"
+                   FontSize="36"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
         </VerticalStackLayout>
+
         <!-- Mobile control buttons -->
         <Grid Padding="20"
               HorizontalOptions="End"
@@ -57,13 +66,34 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     Clicked="Right" />
-            
-            <!-- shoot -->
 
+            <!-- Shoot -->
             <Button Text="●"
                     Grid.Row="1"
                     Grid.Column="1"
                     Clicked="Shoot" />
+        </Grid>
+
+        <!-- start screen and resets -->
+        <Grid x:Name="Overlay"
+              BackgroundColor="#AA000000"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              IsVisible="True">
+
+            <StackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Spacing="20">
+                <Label x:Name="GameMessage"
+                       Text="Asteroids"
+                       TextColor="White"
+                       FontSize="48"
+                       HorizontalOptions="Center" />
+                <Button x:Name="StartButton"
+                        Text="Start Game"
+                        FontSize="24"
+                        Clicked="OnStartClicked" /> 
+            </StackLayout>
         </Grid>
     </Grid>
 </ContentPage>
