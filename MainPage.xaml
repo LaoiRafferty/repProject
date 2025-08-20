@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="repProject.MainPage"
+             BackgroundImageSource="spacebg.jpg">
+
+    <Grid>
+        <!-- Game Area -->
+        <AbsoluteLayout x:Name="GameArea">
+            <Image x:Name="PlayerSprite"
+                   Source="ship.jpg"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   Rotation="0" />
+        </AbsoluteLayout>
+        <VerticalStackLayout>
+            <Label x:Name="Score"
+             Text="Score: 0"
+             FontSize="36"
+             TextColor="White"
+             HorizontalOptions="Center" />
+
+             <Label x:Name="HighScore"
+             Text="High Score: 0"
+             FontSize="36"
+             TextColor="White"
+             HorizontalOptions="Center" />
+        </VerticalStackLayout>
+        <!-- Mobile control buttons -->
+        <Grid Padding="20"
+              HorizontalOptions="End"
+              VerticalOptions="End">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Up -->
+            <Button Text="↑"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Clicked="Forward" />
+
+            <!-- Left -->
+            <Button Text="←" 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Clicked="Left" />
+
+            <!-- Right -->
+            <Button Text="→"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Clicked="Right" />
+        </Grid>
+    </Grid>
+</ContentPage>
