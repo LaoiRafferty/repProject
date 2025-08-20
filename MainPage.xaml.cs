@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Timers;
 using Microsoft.Maui.Dispatching;
+using Microsoft.Maui.Storage;
 
 
 namespace repProject
@@ -14,8 +15,8 @@ namespace repProject
 
         IDispatcherTimer gameTimer;
         Random rng = new Random();
-        List<Image> asteroids = new List<Image>();
-        List<BoxView> bullets = new List<BoxView>();
+        List<Image> asteroids = new ();
+        List<BoxView> bullets = new ();
         bool gameOver = false;
         int highScore;
 
@@ -163,7 +164,7 @@ namespace repProject
             // Create asteroid sprite
             var asteroid = new Image
             {
-                Source = "asteroid1.jpg",
+                Source = "asteroid.png",
                 WidthRequest = size,
                 HeightRequest = size
             };
@@ -201,7 +202,7 @@ namespace repProject
 
             var bullet = new BoxView
             {
-                Color = Colors.Yellow,
+                Color = Colors.Green,
                 WidthRequest = 5,
                 HeightRequest = 5
             };

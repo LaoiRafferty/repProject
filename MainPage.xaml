@@ -8,7 +8,7 @@
         <!-- Game Area -->
         <AbsoluteLayout x:Name="GameArea">
             <Image x:Name="PlayerSprite"
-                   Source="ship.jpg"
+                   Source="ship2.png"
                    WidthRequest="50"
                    HeightRequest="50"/>
         </AbsoluteLayout>
