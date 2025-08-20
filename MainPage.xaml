@@ -58,12 +58,12 @@
                     Grid.Column="2"
                     Clicked="Right" />
             
-            <!-- shoot (not implemented) -->
-            <!--
+            <!-- shoot -->
+
             <Button Text="●"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Clicked="Shoot" />-->
+                    Clicked="Shoot" />
         </Grid>
     </Grid>
 </ContentPage>
