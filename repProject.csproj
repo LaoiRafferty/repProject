@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\asteroid1.jpg" />
 	  <None Remove="Resources\Images\ship.jpg" />
 	  <None Remove="Resources\Images\Spacebg.jpg" />
 	</ItemGroup>
